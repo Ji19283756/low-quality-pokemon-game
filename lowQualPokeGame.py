@@ -30,7 +30,8 @@ class Pokemon:
             print(self.name + ' has level is now ' + str(self.level) + "\n" + self.name + "'s max health is now " +
                   str(self.max_health) + '\n' + self.name + " also gains 50 health\n" + self.name + " now has " +
                   str(self.health) + " health")
-        self.health = (self.health > max_health * self.max_health) + ((self.health <= self.max_health) * self.health)
+        self.health = (self.health > self.max_health * self.max_health) + \
+                      ((self.health <= self.max_health) * self.health)
         # if self.health is greater than max health then it's set to max health, otherwise it's just health
 
     def lose_health(self, damage):
@@ -293,13 +294,12 @@ def decide(final_choice, personal_list, first_dialog):
         print(pal + 'so these are the pokemon that you have chosen:')
         for pokemon in personal_list:
             print(pokemon.name)
-        print(pal + (first * "No lie, those choices of pokemon were PRETTY BAD") +
-              ((not first) * "...to be honest I think that these new pokemon are worse than your original choice") +
+        print(pal + (first_dialog * "No lie, those choices of pokemon were PRETTY BAD") +
+              ((not first_dialog) * "...to be honest I think that these new pokemon are worse than your original choice") +
               ", but i still belive in your ability now that I think about it, "
               "do you wanna switch or do you wanna fight with those pokemon?\n(print switch or stay)")
         answer = input().lower().strip()
         if answer == 'switch':
-            personal_list = []
             for pokemon in personal_list:
                 if pokemon.type == 'fire':
                     firePokemonList.append(pokemon)
@@ -307,6 +307,7 @@ def decide(final_choice, personal_list, first_dialog):
                     waterPokemonList.append(pokemon)
                 if pokemon.type == 'grass':
                     grassPokemonList.append(pokemon)
+            personal_list = []
             personal_list = choose_pokemon(personal_list, 0)
             first_dialog = False
         elif answer == 'stay':
@@ -337,7 +338,7 @@ def createNew(pokemon_amount, return_list=[]):
     return return_list
 
 
-def createEnemy(currentPlayer, enemy_list=[]):
+def createEnemy(currentPlayer):
     enemy_list = []
     for pokemon in currentPlayer.pokemon:
         if is_1_weak_against_2(pokemon.type, 'fire') and len(firePokemonList) > 0:
